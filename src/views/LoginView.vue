@@ -12,7 +12,7 @@
             <label for="password">Senha</label>
             <input type="password" class="form-control" id="password" v-model="password">
         </div>
-        <button type="submit" class="btn btn-primary">Entrar</button>
+        <button type="submit" id="login" class="btn btn-primary">Entrar</button>
     </form>
 </template>
 <script lang="ts" setup>

@@ -1,4 +1,4 @@
-import { getAuth } from "@firebase/auth";
+import { getAuth, onAuthStateChanged } from "@firebase/auth";
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
@@ -34,16 +34,26 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  const auth = getAuth();
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const removeListener = onAuthStateChanged(getAuth(), user => {
+      removeListener();
+      resolve(user);
+    })
+  });
+}
 
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-  const currentUser = auth.currentUser;
-
-  if (requiresAuth && !currentUser) next({ path: '/login', query: { redirect: to.fullPath } })
-  else if (!requiresAuth && currentUser) next('/')
-  else if (!requiresAuth && !currentUser) next()
-  else next()
+router.beforeEach(async (to, from, next) => {
+  if(to.matched.some((record) => record.meta.requiresAuth)) {
+    if(await getCurrentUser()) {
+      next();
+    } else {
+      next("/login");
+    }
+  } 
+  else {
+    next();
+  }
 })
 
 export default router;

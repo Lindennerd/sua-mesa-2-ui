@@ -23,15 +23,11 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
-
+let app;
 const auth = getAuth();
-onAuthStateChanged(auth, user => {
-  const app = createApp(App);
-  
-  app.use(createPinia());
-  app.use(router);
-  
-  app.mount("#app");
-});
+app = createApp(App);
 
+app.use(createPinia());
+app.use(router);
 
+app.mount("#app");
