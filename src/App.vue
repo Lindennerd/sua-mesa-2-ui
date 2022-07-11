@@ -1,14 +1,9 @@
 <template>
   <div>
-    <nav>
-      <RouterLink to="/"> Home </RouterLink>
-      <RouterLink to="/register"> Criar Conta </RouterLink>
-      <RouterLink to="/login"> Login </RouterLink>
-      <a href="" id="logout" @click.prevent="logout">Logout</a>
-      <div v-if="isLoggedIn">
-        Bem vindo {{userData?.email}}
-      </div>
-    </nav>
+    <Navbar 
+      :user-email="userData?.email" 
+      :is-logged-in="isLoggedIn" 
+      @logout="logout" />
   </div>
 
   <RouterView />
@@ -20,6 +15,7 @@ import { onAuthStateChanged, type User } from "@firebase/auth";
 import { getAuth } from "firebase/auth";
 import { onMounted, reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
+import Navbar from "./components/Navbar.vue";
 
 const router = useRouter();
 const auth = getAuth();
