@@ -1,33 +1,65 @@
 <template>
-    <nav class="h-10 w-auto bg-red-600 text-white flex">
-        <div class="text-lg font-bold p-1 pl-5 pr-5 transition hover:bg-red-700 hover:border-b-yellow-500">
-            <RouterLink to="/"> Sua Mesa </RouterLink>
+    <nav class="flex bg-red-600 text-white">
+        <RouterLink to="/" class="text-lg font-bold">
+            <div class="hover-yellow-bottom-border p-2 flex">
+                <img :src="logo" alt="logo" class="h-10 md:h-12">
+                <div class="py-3 px-3">SUA MESA</div>
+            </div>
+        </RouterLink>
+        <div @click="showMenu = !showMenu" class="ml-auto mr-2 cursor-pointer md:hidden">
+            <MenuIcon class="h-6 mt-5" />
         </div>
-        <div class="ml-auto space-x-1 mr-1 flex">
-            <div class="p-1 pl-3 pr-3 transition hover:bg-green-700" v-if="!isLoggedIn">
-                <RouterLink to="/login"> Login </RouterLink>
+        <!-- secondary menu -->
+        <div class="ml-auto hidden md:flex">
+            <RouterLink to="/login" v-if="!isLoggedIn" class="hover-yellow-bottom-border p-2">
+                <div class="mt-3">
+                    Login
+                </div>
+            </RouterLink>
+            <RouterLink to="/register" v-if="!isLoggedIn" class="hover-yellow-bottom-border p-2">
+                <div class="mt-3">
+                    Criar Conta
+                </div>
+            </RouterLink>
+            <div v-if="isLoggedIn">
+                <UserCircleIcon class="h-10 mt-3 mr-4 cursor-pointer" @click="userMenuShow = !userMenuShow" />
+                <div :class="userMenuShow ? 'flex' : 'hidden'" class="transition duration-[.5s]">
+                    <div class="bg-white shadow-lg z-10 text-black 
+                        rounded-sm absolute right-0 mt-2">
+                        <div class="p-2 border-b-2">
+                            {{ userEmail }}</div>
+                        <a href="" @click.prevent="logout"
+                            class="p-2 flex  hover:bg-gray-200 menu-item-selected border-b-2">
+                            <LogoutIcon class="h-5 mr-3" />
+                            <p class="ml-auto">Sair</p>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="p-1 pl-3 pr-3 transition hover:bg-green-700" v-if="!isLoggedIn">
-                <RouterLink to="/register"> Criar Conta </RouterLink>
-            </div>
-            <div class="p-1 pl-3 pr-3 transition hover:bg-green-700" v-if="isLoggedIn">
-                <a href="" id="logout" @click.prevent="logout">Logout</a>
-            </div>
-            <div class="p-1 pl-3 pr-3 transition hover:bg-green-700" v-if="isLoggedIn">           
-                  Bem vindo {{props.userEmail}}
-            </div>
+            <!-- 
+            </a> -->
+
         </div>
     </nav>
+
 </template>
 <script lang="ts" setup>
+import { UserCircleIcon, MenuIcon, LogoutIcon } from '@heroicons/vue/solid';
+import { ref } from '@vue/reactivity';
+import logo from '../assets/logo.png';
 
 const props = defineProps({
     userEmail: String,
-    isLoggedIn: Boolean
+    isLoggedIn: Boolean,
 });
 
-const emit = defineEmits(["logout"])
+const emit = defineEmits(["logout"]);
 
-const logout = () => { emit('logout'); }
+const logout = () => {
+    emit("logout");
+};
 
+
+let showMenu = ref(false);
+let userMenuShow = ref(false);
 </script>

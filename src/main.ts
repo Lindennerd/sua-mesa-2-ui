@@ -4,12 +4,9 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 
-//import './assets/base.css';
-
 import { initializeApp } from 'firebase/app';
 import { onAuthStateChanged } from "@firebase/auth";
 import { getAuth } from "firebase/auth";
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyC0AKX8ZWZ0Ur1iA6ZMMbGUP8ZDIK2R99Y",

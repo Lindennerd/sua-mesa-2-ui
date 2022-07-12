@@ -1,10 +1,8 @@
 <template>
-  <div>
     <Navbar 
       :user-email="userData?.email" 
       :is-logged-in="isLoggedIn" 
       @logout="logout" />
-  </div>
 
   <RouterView />
 </template>
