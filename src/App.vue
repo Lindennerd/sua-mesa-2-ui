@@ -4,7 +4,9 @@
       :is-logged-in="isLoggedIn" 
       @logout="logout" />
 
+<div class="pt-[5em]">
   <RouterView />
+</div>
 </template>
 <script lang="ts" setup>
 import { RouterLink, RouterView, useRouter } from "vue-router";
@@ -13,7 +15,7 @@ import { onAuthStateChanged, type User } from "@firebase/auth";
 import { getAuth } from "firebase/auth";
 import { onMounted, reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import Navbar from "./components/Navbar.vue";
+import Navbar from "./components/Navbar/Navbar.vue";
 
 const router = useRouter();
 const auth = getAuth();
